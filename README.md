@@ -22,7 +22,7 @@ Perfect for making videos accessible across languages—great for movies, lectur
 
 1. **Clone the Repository**:
    ```
-   git clone https://github.com/danielthejoker18/auto-subber.git
+   git clone https://github.com/danielthejoker18/AutoSubber.git
    cd auto-subber
    ```
 
@@ -224,7 +224,7 @@ Perfeito para tornar vídeos acessíveis em vários idiomas—ótimo para filmes
 
 1. **Clone o Repositório**:
    ```
-   git clone https://github.com/danielthejoker18/auto-subber.git
+   git clone https://github.com/danielthejoker18/AutoSubber.git
    cd auto-subber
    ```
 
