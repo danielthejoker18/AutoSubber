@@ -1,0 +1,5 @@
+torch
+transformers
+ffmpeg-python
+pysrt
+sentencepiece
