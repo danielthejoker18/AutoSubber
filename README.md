@@ -11,9 +11,9 @@ AutoSubber is a local Python tool that automatically generates timed subtitles f
 Perfect for making videos accessible across languages—great for movies, lectures, or personal projects. Runs entirely offline after model downloads, leveraging your GPU for speed.
 
 ### Features
-- **Audio Transcription**: Extracts audio from video and transcribes it with accurate timestamps using Whisper.
+- **Audio Transcription**: Extracts audio from video (or uses audio files directly) and transcribes it with accurate timestamps using Whisper.
 - **Multi-Language Translation**: Translates transcripts to 100+ languages.
-- **Subtitle Generation**: Outputs standard SRT files.
+- **Subtitle & Text Generation**: Outputs standard SRT files and plain text (TXT) transcriptions.
 - **Video Embedding**: Optionally burns subtitles into a new video file.
 - **GPU Acceleration**: Optimized for NVIDIA GPUs for fast processing.
 - **Simple CLI**: Easy command-line usage—no GUI needed.
@@ -53,11 +53,11 @@ Perfect for making videos accessible across languages—great for movies, lectur
 Run the script from the command line:
 
 ```
-python main.py <input_video> <output> <src_lang> <tgt_lang> [--srt-only]
+python main.py <input_file> <output> <src_lang> <tgt_lang> [--srt-only]
 ```
 
-- `<input_video>`: Path to your input video file (e.g., `movie.mp4`).
-- `<output>`: Path to the output file. If `--srt-only` is used, this is the base name for the `.srt` file. Otherwise, it's the path to the output video with embedded subtitles (e.g., `movie_subbed.mp4`).
+- `<input_file>`: Path to your input video or audio file (e.g., `movie.mp4`, `interview.mp3`).
+- `<output>`: Path to the output file. If `--srt-only` is used or input is audio, this is the base name for the `.srt` and `.txt` files. Otherwise, it's the path to the output video with embedded subtitles.
 - `<src_lang>`: Source language code (e.g., `en` for English).
 - `<tgt_lang>`: Target language code (e.g., `fr` for French).
 - `--srt-only` (optional): If specified, the script will only generate the SRT subtitle file and will not embed it into the video.
@@ -77,7 +77,13 @@ This transcribes English audio from `video.mp4`, translates it to Spanish, and c
 ```
 python main.py video.mp4 video_subbed en es --srt-only
 ```
-This transcribes and translates the video, but only saves the Spanish subtitles to `video_subbed.srt`. No video will be created.
+This transcribes and translates the video, but only saves the Spanish subtitles to `video_subbed.srt` and transcription to `video_subbed.txt`. No video will be created.
+
+**Transcribe an audio file:**
+```
+python main.py interview.mp3 interview_transcribed en en
+```
+This transcribes the English audio `interview.mp3` and saves the result to `interview_transcribed.srt` and `interview_transcribed.txt`.
 
 ## How It Works
 
@@ -213,9 +219,9 @@ AutoSubber é uma ferramenta local em Python que gera automaticamente legendas c
 Perfeito para tornar vídeos acessíveis em vários idiomas—ótimo para filmes, palestras ou projetos pessoais. Executa totalmente offline após o download dos modelos, aproveitando sua GPU para velocidade.
 
 ### Funcionalidades
-- **Transcrição de Áudio**: Extrai áudio do vídeo e transcreve com timestamps precisos usando Whisper.
+- **Transcrição de Áudio**: Extrai áudio do vídeo (ou usa arquivos de áudio diretamente) e transcreve com timestamps precisos usando Whisper.
 - **Tradução Multi-Idioma**: Traduz transcrições para mais de 100 idiomas.
-- **Geração de Legendas**: Gera arquivos SRT padrão.
+- **Geração de Legendas e Texto**: Gera arquivos SRT padrão e transcrições em texto simples (TXT).
 - **Embutir no Vídeo**: Opcionalmente, embute legendas em um novo arquivo de vídeo.
 - **Aceleração por GPU**: Otimizado para GPUs NVIDIA para processamento rápido.
 - **CLI Simples**: Uso fácil via linha de comando—sem GUI necessária.
@@ -255,11 +261,11 @@ Perfeito para tornar vídeos acessíveis em vários idiomas—ótimo para filmes
 Execute o script pela linha de comando:
 
 ```
-python main.py <video_de_entrada> <saida> <idioma_origem> <idioma_destino> [--srt-only]
+python main.py <arquivo_entrada> <saida> <idioma_origem> <idioma_destino> [--srt-only]
 ```
 
-- `<video_de_entrada>`: Caminho para o seu arquivo de vídeo de entrada (ex: `filme.mp4`).
-- `<saida>`: Caminho para o arquivo de saída. Se `--srt-only` for usado, este é o nome base para o arquivo `.srt`. Caso contrário, é o caminho para o vídeo de saída com as legendas embutidas (ex: `filme_legendado.mp4`).
+- `<arquivo_entrada>`: Caminho para o seu arquivo de vídeo ou áudio de entrada (ex: `filme.mp4`, `entrevista.mp3`).
+- `<saida>`: Caminho para o arquivo de saída. Se `--srt-only` for usado ou a entrada for áudio, este é o nome base para os arquivos `.srt` e `.txt`. Caso contrário, é o caminho para o vídeo de saída com as legendas embutidas.
 - `<idioma_origem>`: Código do idioma de origem (ex: `en` para inglês).
 - `<idioma_destino>`: Código do idioma de destino (ex: `fr` para francês).
 - `--srt-only` (opcional): Se especificado, o script irá gerar apenas o arquivo de legenda SRT e não o embutirá no vídeo.
@@ -279,7 +285,13 @@ Este comando transcreve o áudio em inglês de `video.mp4`, traduz para espanhol
 ```
 python main.py video.mp4 video_legendado en es --srt-only
 ```
-Este comando transcreve e traduz o vídeo, mas salva apenas as legendas em espanhol em `video_legendado.srt`. Nenhum vídeo será criado.
+Este comando transcreve e traduz o vídeo, mas salva apenas as legendas em espanhol em `video_legendado.srt` e a transcrição em `video_legendado.txt`. Nenhum vídeo será criado.
+
+**Transcrever um arquivo de áudio:**
+```
+python main.py entrevista.mp3 entrevista_transcrita en en
+```
+Este comando transcreve o áudio em inglês `entrevista.mp3` e salva o resultado em `entrevista_transcrita.srt` e `entrevista_transcrita.txt`.
 
 ## Como Funciona
 

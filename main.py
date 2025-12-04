@@ -8,25 +8,21 @@ import ffmpeg
 import pysrt
 from datetime import timedelta
 
-# Check for GPU
 device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
-# Load models (downloads on first run)
 transcriber = pipeline(
     "automatic-speech-recognition",
-    model="openai/whisper-medium",  # Bumped to medium for better accuracy; use 'large' if your GPU can handle it
+    model="openai/whisper-medium",
     device=device
 )
-translator_model_name = "facebook/m2m100_418M"  # Multilingual, supports 100+ langs
+translator_model_name = "facebook/m2m100_418M"
 translator_tokenizer = AutoTokenizer.from_pretrained(translator_model_name)
 translator = AutoModelForSeq2SeqLM.from_pretrained(translator_model_name).to(device)
 
-# Language code mappings for variants
 LANG_MAPPINGS = {
-    'pt-br': 'pt',  # Brazilian Portuguese -> standard pt
-    'pt-pt': 'pt',  # European Portuguese -> standard pt
-    # Add more if needed, e.g., 'en-us': 'en'
+    'pt-br': 'pt',
+    'pt-pt': 'pt',
 }
 
 def extract_audio(video_path, audio_path):
@@ -41,8 +37,8 @@ def transcribe_audio(audio_path, src_lang):
     result = transcriber(
         audio_path,
         return_timestamps=True,
-        task="transcribe",  # Explicitly set to transcribe (not translate)
-        language=src_lang  # Use the source lang from args (e.g., 'en'); improves detection accuracy
+        task="transcribe",
+        language=src_lang
     )
     segments = []
     for chunk in result['chunks']:
@@ -56,7 +52,6 @@ def transcribe_audio(audio_path, src_lang):
 
 def translate_segments(segments, src_lang, tgt_lang):
     """Translate text segments."""
-    # Apply mappings if needed
     src_lang = LANG_MAPPINGS.get(src_lang.lower(), src_lang)
     tgt_lang = LANG_MAPPINGS.get(tgt_lang.lower(), tgt_lang)
     
@@ -100,28 +95,48 @@ def embed_subtitles(video_path, srt_path, output_path):
     except subprocess.CalledProcessError:
         raise RuntimeError("FFmpeg embedding failed.")
 
+def save_transcription_txt(segments, txt_path):
+    """Save transcription to a text file."""
+    with open(txt_path, 'w', encoding='utf-8') as f:
+        for seg in segments:
+            f.write(f"{seg['text']}\n")
+
+def is_audio_file(filepath):
+    """Check if file is audio based on extension."""
+    audio_exts = {'.mp3', '.wav', '.m4a', '.flac', '.ogg', '.aac', '.wma'}
+    return os.path.splitext(filepath)[1].lower() in audio_exts
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="AutoSubber: Generate subtitles for videos.")
-    parser.add_argument("input_video", help="Path to input video file")
-    parser.add_argument("output", help="Path to output file (video or base for SRT)")
+    parser = argparse.ArgumentParser(description="AutoSubber: Generate subtitles for videos or transcribe audio.")
+    parser.add_argument("input_file", help="Path to input video or audio file")
+    parser.add_argument("output", help="Path to output file (video or base for SRT/TXT)")
     parser.add_argument("src_lang", help="Source language code (e.g., en)")
     parser.add_argument("tgt_lang", help="Target language code (e.g., fr)")
     parser.add_argument("--srt-only", action="store_true", help="Generate SRT file only (no video embedding)")
     
     args = parser.parse_args()
     
-    video_path = args.input_video
-    output_base = os.path.splitext(args.output)[0]  # e.g., 'video2' from 'video2.mp4'
+    input_path = args.input_file
+    output_base = os.path.splitext(args.output)[0]
     srt_path = f"{output_base}.srt"
-    output_video = args.output if not args.srt_only else None  # No video if SRT only
+    txt_path = f"{output_base}.txt"
+    
+    is_audio = is_audio_file(input_path)
+    
+    output_video = args.output if (not args.srt_only and not is_audio) else None
     src_lang = args.src_lang
     tgt_lang = args.tgt_lang
     
     audio_path = "temp_audio.wav"
     
     try:
-        print("Extracting audio...")
-        extract_audio(video_path, audio_path)
+        if is_audio:
+            print(f"Input detected as audio file: {input_path}")
+            print("Preparing audio...")
+            subprocess.run(["ffmpeg", "-i", input_path, "-ar", "16000", "-ac", "1", "-c:a", "pcm_s16le", audio_path, "-y"], check=True)
+        else:
+            print("Extracting audio from video...")
+            extract_audio(input_path, audio_path)
         
         print("Transcribing...")
         segments = transcribe_audio(audio_path, src_lang)
@@ -132,16 +147,19 @@ if __name__ == "__main__":
         print("Generating SRT...")
         generate_srt(translated_segments, srt_path)
         
-        if not args.srt_only:
+        print("Generating TXT...")
+        save_transcription_txt(translated_segments, txt_path)
+        
+        if output_video:
             print("Embedding subtitles...")
-            embed_subtitles(video_path, srt_path, output_video)
+            embed_subtitles(input_path, srt_path, output_video)
             print(f"Done! Output video at {output_video}")
         else:
             print(f"Done! SRT file at {srt_path}")
+            print(f"Done! TXT file at {txt_path}")
+            
     finally:
-        # Cleanup
         if os.path.exists(audio_path): os.remove(audio_path)
-        if args.srt_only or not os.path.exists(output_video):  # Keep SRT if SRT-only or embedding failed
-            pass
-        else:
+        
+        if output_video and os.path.exists(output_video):
             if os.path.exists(srt_path): os.remove(srt_path)
