@@ -21,6 +21,7 @@ Perfect for making videos accessible across languages—great for movies, lectur
 ## Installation
 
 1. **Clone the Repository**:
+
    ```
    git clone https://github.com/danielthejoker18/AutoSubber.git
    cd auto-subber
@@ -28,11 +29,13 @@ Perfect for making videos accessible across languages—great for movies, lectur
 
 2. **Install Dependencies**:
    Ensure you have Python 3.8+ installed. Then, install the required packages:
+
    ```
    pip install -r requirements.txt
    ```
 
    Note: For GPU support, install PyTorch with CUDA:
+
    ```
    pip install torch --index-url https://download.pytorch.org/whl/cu121  # Adjust for your CUDA version
    ```
@@ -68,18 +71,21 @@ The script can handle language variants like `pt-br` (Brazilian Portuguese) and 
 ### Examples
 
 **Generate a subtitled video:**
+
 ```
 python main.py video.mp4 video_subbed.mp4 en es
 ```
 This transcribes English audio from `video.mp4`, translates it to Spanish, and creates a new video file `video_subbed.mp4` with the subtitles embedded.
 
 **Generate an SRT file only:**
+
 ```
 python main.py video.mp4 video_subbed en es --srt-only
 ```
 This transcribes and translates the video, but only saves the Spanish subtitles to `video_subbed.srt` and transcription to `video_subbed.txt`. No video will be created.
 
 **Transcribe an audio file:**
+
 ```
 python main.py interview.mp3 interview_transcribed en en
 ```
@@ -229,6 +235,7 @@ Perfeito para tornar vídeos acessíveis em vários idiomas—ótimo para filmes
 ## Instalação
 
 1. **Clone o Repositório**:
+
    ```
    git clone https://github.com/danielthejoker18/AutoSubber.git
    cd auto-subber
@@ -236,11 +243,13 @@ Perfeito para tornar vídeos acessíveis em vários idiomas—ótimo para filmes
 
 2. **Instale as Dependências**:
    Garanta que você tenha o Python 3.8+ instalado. Em seguida, instale os pacotes necessários:
+
    ```
    pip install -r requirements.txt
    ```
 
    Nota: Para suporte a GPU, instale o PyTorch com CUDA:
+
    ```
    pip install torch --index-url https://download.pytorch.org/whl/cu121  # Ajuste para sua versão de CUDA
    ```
@@ -276,18 +285,21 @@ O script pode lidar com variantes de idioma como `pt-br` (Português Brasileiro)
 ### Exemplos
 
 **Gerar um vídeo legendado:**
+
 ```
 python main.py video.mp4 video_legendado.mp4 en es
 ```
 Este comando transcreve o áudio em inglês de `video.mp4`, traduz para espanhol e cria um novo arquivo de vídeo `video_legendado.mp4` com as legendas embutidas.
 
 **Gerar apenas um arquivo SRT:**
+
 ```
 python main.py video.mp4 video_legendado en es --srt-only
 ```
 Este comando transcreve e traduz o vídeo, mas salva apenas as legendas em espanhol em `video_legendado.srt` e a transcrição em `video_legendado.txt`. Nenhum vídeo será criado.
 
 **Transcrever um arquivo de áudio:**
+
 ```
 python main.py entrevista.mp3 entrevista_transcrita en en
 ```
