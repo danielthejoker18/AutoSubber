@@ -1,4 +1,3 @@
-```markdown
 # AutoSubber: Automatic Video Subtitle Generator
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
@@ -426,4 +425,3 @@ Licença MIT. Sinta-se livre para usar, modificar e distribuir.
 - Graças ao FFmpeg e Hugging Face por ferramentas incríveis.
 
 Construído com ❤️ por Daniel. Dê uma estrela no repo se ajudar! 🚀
-````
