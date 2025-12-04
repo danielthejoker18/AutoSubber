@@ -22,23 +22,23 @@ Perfect for making videos accessible across languages—great for movies, lectur
 
 1. **Clone the Repository**:
 
-   ```
-   git clone https://github.com/danielthejoker18/AutoSubber.git
-   cd auto-subber
-   ```
+```
+git clone https://github.com/danielthejoker18/AutoSubber.git
+cd auto-subber
+```
 
 2. **Install Dependencies**:
    Ensure you have Python 3.8+ installed. Then, install the required packages:
 
-   ```
-   pip install -r requirements.txt
-   ```
+```
+pip install -r requirements.txt
+```
 
    Note: For GPU support, install PyTorch with CUDA:
 
-   ```
-   pip install torch --index-url https://download.pytorch.org/whl/cu121  # Adjust for your CUDA version
-   ```
+```
+pip install torch --index-url https://download.pytorch.org/whl/cu121  # Adjust for your CUDA version
+```
 
 3. **Install FFmpeg**:
    FFmpeg is required for audio extraction and video processing. Download and install it:
@@ -236,23 +236,23 @@ Perfeito para tornar vídeos acessíveis em vários idiomas—ótimo para filmes
 
 1. **Clone o Repositório**:
 
-   ```
-   git clone https://github.com/danielthejoker18/AutoSubber.git
-   cd auto-subber
-   ```
+```
+git clone https://github.com/danielthejoker18/AutoSubber.git
+cd auto-subber
+```
 
 2. **Instale as Dependências**:
    Garanta que você tenha o Python 3.8+ instalado. Em seguida, instale os pacotes necessários:
 
-   ```
-   pip install -r requirements.txt
-   ```
+```
+pip install -r requirements.txt
+```
 
    Nota: Para suporte a GPU, instale o PyTorch com CUDA:
 
-   ```
-   pip install torch --index-url https://download.pytorch.org/whl/cu121  # Ajuste para sua versão de CUDA
-   ```
+```
+pip install torch --index-url https://download.pytorch.org/whl/cu121  # Ajuste para sua versão de CUDA
+```
 
 3. **Instale o FFmpeg**:
    O FFmpeg é necessário para extração de áudio e processamento de vídeo. Baixe e instale:
