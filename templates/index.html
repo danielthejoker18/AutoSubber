@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoSubber - Pro Translation AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Header -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-closed-captioning"></i>
+                <span>AutoSubber</span>
+            </div>
+            <div class="sidebar-info">
+                <p>AI-Powered Automatic Video Subtitling & Translation.</p>
+                <div class="status-badge ready" id="systemStatus">System Ready</div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Upload Section -->
+            <section class="card upload-card">
+                <h2>1. Upload Media</h2>
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-content">
+                        <i class="fa-solid fa-cloud-arrow-up icon"></i>
+                        <h3>Drag & Drop video here</h3>
+                        <p>or click to browse files</p>
+                        <input type="file" id="fileInput" hidden accept="video/*,audio/*">
+                    </div>
+                    <div class="file-preview" id="filePreview" style="display: none;">
+                        <i class="fa-solid fa-file-video"></i>
+                        <div class="file-info">
+                            <span class="file-name" id="fileName">video.mp4</span>
+                            <span class="file-size" id="fileSize">25 MB</span>
+                        </div>
+                        <button class="remove-btn" id="removeFile"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Configuration Section -->
+            <section class="card config-card">
+                <h2>2. Configuration</h2>
+                <div class="config-grid">
+                    <div class="input-group">
+                        <label>Source Language</label>
+                        <select id="srcLang">
+                            <option value="en" selected>English (en)</option>
+                            <option value="pt">Portuguese (pt)</option>
+                            <option value="es">Spanish (es)</option>
+                            <option value="fr">French (fr)</option>
+                            <option value="de">German (de)</option>
+                            <option value="it">Italian (it)</option>
+                            <option value="ja">Japanese (ja)</option>
+                            <option value="auto">Auto Detect</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Target Language</label>
+                        <select id="tgtLang">
+                            <option value="pt" selected>Portuguese (pt)</option>
+                            <option value="en">English (en)</option>
+                            <option value="es">Spanish (es)</option>
+                            <option value="fr">French (fr)</option>
+                            <option value="de">German (de)</option>
+                            <option value="it">Italian (it)</option>
+                            <option value="ja">Japanese (ja)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>AI Model Size</label>
+                        <select id="modelSize">
+                            <option value="openai/whisper-tiny">Tiny (Fastest)</option>
+                            <option value="openai/whisper-base">Base</option>
+                            <option value="openai/whisper-small" selected>Small (Balanced)</option>
+                            <option value="openai/whisper-medium">Medium (Accurate)</option>
+                            <option value="openai/whisper-large">Large (Best Quality)</option>
+                        </select>
+                        <small class="hint">"Small" is recommended for CPU.</small>
+                    </div>
+                </div>
+                
+                <button class="btn-primary" id="startBtn" disabled>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Subtitles
+                </button>
+            </section>
+
+            <!-- Terminal / Logs Section -->
+            <section class="card terminal-card">
+                <div class="terminal-header">
+                    <h2><i class="fa-solid fa-terminal"></i> Live Logs</h2>
+                    <span class="status-indicator" id="processStatus">Idle</span>
+                </div>
+                <div class="terminal-window" id="terminalOutput">
+                    <div class="log-line system">Waiting for tasks...</div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="card results-card" id="resultsSection" style="display: none;">
+                <h2><i class="fa-solid fa-check-circle"></i> Completed!</h2>
+                <div class="download-grid">
+                    <a href="#" class="btn-download" id="dlVideo">
+                        <i class="fa-solid fa-video"></i> Download Video
+                    </a>
+                    <a href="#" class="btn-download secondary" id="dlSrt">
+                        <i class="fa-solid fa-file-lines"></i> Download .SRT
+                    </a>
+                    <a href="#" class="btn-download secondary" id="dlTxt">
+                        <i class="fa-solid fa-file-text"></i> Download .TXT
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
